@@ -26,7 +26,6 @@ class AddQuestion extends Component {
         right: document.getElementById("right").value
     })
     })
-    
   }
 
 
@@ -34,7 +33,7 @@ class AddQuestion extends Component {
     return (
       <form name="questionForm" onSubmit={ this.sub }>
         <label htmlFor="hard">Hard</label>
-        <select name="hard">
+        <select name="hard" id="hard">
           <option value="1">Начальный</option>
           <option value="2">Средний</option>
           <option value="3">Сложный</option>

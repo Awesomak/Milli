@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
 import Time from '../components/Time'
-import Question from '../components/Questiom'
+import Question from '../components/Question'
 import Answer from '../components/Answer'
 
 class QuestionPage extends Component {
     state = {
         question: 0,
-        time: 10,
-        easy: null,
-        mid: null,
-        hard: null
+        time: 60,
+        questions: null,
+        done: false,
+        quest: null,
+        answersrand: [],
+        right: null
     }
 
     next = (val) => {
@@ -17,12 +19,11 @@ class QuestionPage extends Component {
         if(val === true) {
             this.setState({
                 question: question + 1,
-                time: 10
+                time: 60
             })
         } else {
             clearInterval(this.timer);
-            console.log("loooose");
-            
+            this.props.toResult(this.state.question);
         }
     }
 
@@ -37,36 +38,58 @@ class QuestionPage extends Component {
             }
         }, 1000);
     }
-    
+
     componentWillMount() {
         this.startTimer();
-    }
-
-    componentDidMount() {
         fetch('/api/questions')
         .then(res => res.json())
-        .then(questionseasy => this.setState({easy: questionseasy}, () => console.log('Customers fetched...', questionseasy)))
+        .then(questions => this.setState({questions: questions, done: true}, () => { console.log('Customers fetched...', questions); this.update()}))
+    }
+
+    update = () => {
+        function rand(a,b) {
+            return Math.random() - 0.5;
+        }
+        var a = [ this.state.questions[this.state.question].answers.answer1,
+                                this.state.questions[this.state.question].answers.answer2,
+                                this.state.questions[this.state.question].answers.answer3,
+                                this.state.questions[this.state.question].answers.answer4,]
+        a.sort(rand);
+        this.setState({
+            quest: this.state.questions[this.state.question].question,
+            right: this.state.questions[this.state.question].right,
+            answersrand: a
+        })
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if(this.state.question === 10) {
+            this.props.toResult(this.state.question);
+        }
+        if(prevState.question !== this.state.question) {
+            this.update();
+        }
     }
 
     render() {
-        if(this.state.question < 4 && this.state.easy) {
-            var quest = this.state.easy[this.state.question].question;
-            var answer1 = this.state.easy[this.state.question].answers.answer1;
-            var answer2 = this.state.easy[this.state.question].answers.answer2;
-            var answer3 = this.state.easy[this.state.question].answers.answer3;
-            var answer4 = this.state.easy[this.state.question].answers.answer4;
-            var right = this.state.easy[this.state.question].right;
+        if(this.state.done) {
+            return (
+                <React.Fragment>
+                    <Time time={this.state.time}></Time>
+                    <Question question={ this.state.quest }></Question>
+                    <Answer next={this.next} answer={ this.state.answersrand[0] } rig={ this.state.right }></Answer>
+                    <Answer next={this.next} answer={ this.state.answersrand[1] } rig={ this.state.right }></Answer><br />
+                    <Answer next={this.next} answer={ this.state.answersrand[2] } rig={ this.state.right }></Answer>
+                    <Answer next={this.next} answer={ this.state.answersrand[3] } rig={ this.state.right }></Answer><br />
+                </React.Fragment>
+            );
+        } else {
+            return (
+                <React.Fragment>
+                    Wait
+                </React.Fragment>
+            );
         }
-      return (
-        <React.Fragment>
-            <Time time={this.state.time}></Time>
-            <Question question={ quest }></Question>
-            <Answer next={this.next} answer={ answer1 } rig={ right }></Answer>
-            <Answer next={this.next} answer={ answer2 } rig={ right }></Answer><br />
-            <Answer next={this.next} answer={ answer3 } rig={ right }></Answer>
-            <Answer next={this.next} answer={ answer4 } rig={ right }></Answer><br />
-        </React.Fragment>
-      );
     }
   }
   

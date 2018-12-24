@@ -7,7 +7,7 @@ render() {
         <p>Введите имя</p>
         <input placeholder='имя' />
         <p>Ваш результат - { this.props.q }</p>
-        <button>начало</button>
+        <button onClick={ this.props.toStart }>начало</button>
     </React.Fragment>
     );
 }

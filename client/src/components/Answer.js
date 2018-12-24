@@ -17,7 +17,10 @@ class Answer extends Component {
         }
     }
 
-    componentWillMount() {
+    componentDidMount() {
+        this.setState({
+            ok: false
+        })
         if(this.props.answer === this.props.rig) {
             this.setState({
                 ok: true
