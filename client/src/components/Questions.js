@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import AddQuestion from './AddQuestion'
 import './customers.css';
 
-class Customers extends Component {
+class Questions extends Component {
   constructor() {
     super();
     this.state = {
@@ -45,7 +45,8 @@ class Customers extends Component {
   render() {
     return (
       <div>
-        <h2>Customers</h2>
+        <h2>Questions</h2>
+        <button onClick={ this.props.toStart }>На главную</button>
         <table>
           <tbody>
             {this.state.questions ? this.state.questions.map(question => 
@@ -61,4 +62,4 @@ class Customers extends Component {
   }
 }
 
-export default Customers;
+export default Questions;

@@ -3,6 +3,7 @@ import StartPage from './pages/StartPage'
 import QuestionPage from './pages/QuestionPage'
 import RecordPage from './pages/RecordPage'
 import ResultPage from './pages/ResultPage'
+import Questions from './components/Questions'
 import './App.css';
 
 class App extends Component {
@@ -36,10 +37,16 @@ class App extends Component {
     })
   }
 
+  toQuestions = () => {
+    this.setState({
+      page: 5
+    })
+  }
+
   render() {
     if(this.state.page === 1) {
       return (
-        <StartPage toQuest={this.toQuest} toRecord={this.toRecord}></StartPage>
+        <StartPage toQuest={this.toQuest} toQuestions={this.toQuestions} toRecord={this.toRecord}></StartPage>
       );
     } else if (this.state.page === 2) {
       return (
@@ -52,6 +59,10 @@ class App extends Component {
     } else if (this.state.page === 4) {
       return (
         <RecordPage toStart={this.toStart}></RecordPage>
+      );
+    } else if (this.state.page === 5) {
+      return (
+        <Questions toStart={this.toStart}></Questions>
       );
     }
   }

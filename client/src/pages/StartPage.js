@@ -1,7 +1,4 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
-import Customers from '../components/customers'
-
 
 class StartPage extends Component {
 
@@ -17,13 +14,8 @@ class StartPage extends Component {
       <React.Fragment>
         <h1>Миллионер</h1>
         <button onClick={() => { this.props.toQuest()}}>Начать</button><br />
-        <button onClick={() => { this.props.toRecord()}}>Рекорды</button>
-        <Router>
-          <div>
-            <Link to="/question">Вопросы</Link>
-            <Route path="/question" component={Customers} />
-          </div>
-        </Router>
+        <button onClick={() => { this.props.toRecord()}}>Рекорды</button><br />
+        <button onClick={() => { this.props.toQuestions()}}>Вопросы</button>
         {
           //<button onClick={this.delete}>Delete All</button> 
         }

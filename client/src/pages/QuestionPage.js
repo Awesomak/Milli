@@ -29,12 +29,13 @@ class QuestionPage extends Component {
 
     startTimer = () => {
         this.timer = setInterval(() => {
+            if(this.state.time === 0 || this.state.question === 10) {
+                clearInterval(this.timer);
+            } else {
             const { time } = this.state
             this.setState({
                 time: time - 1
             })
-            if(this.state.time === 0) {
-                clearInterval(this.timer);
             }
         }, 1000);
     }
@@ -63,11 +64,8 @@ class QuestionPage extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if(this.state.question === 10) {
-            this.props.toResult(this.state.question);
-        }
         if(prevState.question !== this.state.question) {
-            this.update();
+            this.state.question === 10 ? this.props.toResult(this.state.question) : this.update()
         }
     }
 
@@ -86,7 +84,6 @@ class QuestionPage extends Component {
         } else {
             return (
                 <React.Fragment>
-                    Wait
                 </React.Fragment>
             );
         }

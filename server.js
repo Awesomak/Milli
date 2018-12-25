@@ -15,34 +15,47 @@ app.get('/api/question', (req,res) => {
   });
 })
 
-app.get('/api/questions', (req,res) => {
-  function rand(a,b) {
-    return Math.random() - 0.5;
-  }
-  let questions = [];
-  //Вначале это
-  db.collection("questions").find({hard: "1"}).toArray(function(err, questionseasy){
-    questionseasy.sort(rand).slice(0,4);
-    for(q of questionseasy) {
-      questions.push(q);
-    }
-  });
-  //потом это
-  db.collection("questions").find({hard: "2"}).toArray(function(err, questionsmid){
-    questionsmid.sort(rand).slice(0,4);
-    for(q of questionsmid) {
-      questions.push(q);
-    }
-  });
-  //еще потом это
-  db.collection("questions").find({hard: "3"}).toArray(function(err, questionhard){
-    questionhard.sort(rand).slice(0,4);
-    for(q of questionhard) {
-      questions.push(q);
-    }
-    res.send(questions);
+app.get('/api/results', (req,res) => {
+  db.collection("results").find({}).toArray(function(err, result){
+    res.send(result)
   });
 })
+
+app.get('/api/questions', (req,res) => {
+  function rand(a,b) {
+    return Math.random() - 0.2;
+  }
+
+  let questions = [];
+
+  db.collection("questions").find({hard: "1"}).toArray(function(err, questionseasy){
+    let easy1 = questionseasy.sort(rand)
+    let easy = easy1.slice(0,4)
+    for(q of easy) {
+      questions.push(q);
+    }
+  });
+
+  setTimeout(() => {
+    db.collection("questions").find({hard: "2"}).toArray(function(err, questionsmid){
+      let mid = questionsmid.sort(rand).slice(0,4);
+      for(q of mid) {
+        questions.push(q);
+      }
+    });
+  },200)
+
+  setTimeout(() => {
+    db.collection("questions").find({hard: "3"}).toArray(function(err, questionhard){
+      let hard = questionhard.sort(rand).slice(0,2);
+      for(q of hard) {
+        questions.push(q);
+      }
+      res.send(questions)
+    });
+  },400)
+})
+
 
 app.put('/api/question/:id', (req,res) => { 
   var idgo = new objectId(req.params.id);    
@@ -77,6 +90,12 @@ app.post('/api/question', (req, res) => {
   var right = req.body.right;
   var newquest = {hard: hard, question: quest, answers: { answer1: answer1, answer2: answer2, answer3: answer3, answer4: answer4 }, right: right};
   db.collection('questions').insertOne(newquest);
+})
+
+app.post('/api/result', (req, res) => {
+  var name = req.body.name;
+  var result = req.body.result;
+  db.collection('results').insertOne({name: name, result: result});
 })
 
 const port = 5000;
