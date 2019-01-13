@@ -10,7 +10,7 @@ var db = mongoose.createConnection('mongodb://localhost:27017/questions', { useN
 app.use(bodyParser.json())
 
 app.get('/api/question', (req,res) => {
-  db.collection("questions").find({}).toArray(function(err, questions){
+  db.collection("questions").find({}, {right:0}).toArray(function(err, questions){
     res.send(questions)
   });
 })
@@ -32,6 +32,7 @@ app.get('/api/questions', (req,res) => {
     let easy1 = questionseasy.sort(rand)
     let easy = easy1.slice(0,4)
     for(q of easy) {
+      delete q.right;
       questions.push(q);
     }
   });
@@ -40,6 +41,7 @@ app.get('/api/questions', (req,res) => {
     db.collection("questions").find({hard: "2"}).toArray(function(err, questionsmid){
       let mid = questionsmid.sort(rand).slice(0,4);
       for(q of mid) {
+        delete q.right;
         questions.push(q);
       }
     });
@@ -47,8 +49,9 @@ app.get('/api/questions', (req,res) => {
 
   setTimeout(() => {
     db.collection("questions").find({hard: "3"}).toArray(function(err, questionhard){
-      let hard = questionhard.sort(rand).slice(0,2);
+      let hard = questionhard.sort(rand).slice(0,4);
       for(q of hard) {
+        delete q.right;
         questions.push(q);
       }
       res.send(questions)
@@ -56,6 +59,18 @@ app.get('/api/questions', (req,res) => {
   },400)
 })
 
+app.post('/api/right/:id', (req,res) => { 
+  var id = new objectId(req.params.id);    
+  var right = req.body.right;
+  db.collection("questions").findOne({_id: id}).then(r => {
+    console.log(r.right,'---',req.body.right);
+    if(r.right === right) {
+      res.send(true);
+    } else {
+      res.send(false)
+    }
+  })
+})
 
 app.put('/api/question/:id', (req,res) => { 
   var idgo = new objectId(req.params.id);    

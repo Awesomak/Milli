@@ -12,10 +12,16 @@ class StartPage extends Component {
   render() {
     return (
       <React.Fragment>
-        <h1>Миллионер</h1>
-        <button onClick={() => { this.props.toQuest()}}>Начать</button><br />
-        <button onClick={() => { this.props.toRecord()}}>Рекорды</button><br />
-        <button onClick={() => { this.props.toQuestions()}}>Вопросы</button>
+        <img src="./maxresdefault.png" alt="Миллионер" id="logo"/>
+        <div className="polygon">
+          <button onClick={() => { this.props.toQuest()}}>Начать</button>
+        </div>
+        <div className="polygon">
+          <button onClick={() => { this.props.toRecord()}}>Рекорды</button>
+        </div>
+        <div className="polygon">
+          <button onClick={() => { this.props.toQuestions()}}>Вопросы</button>
+        </div>
         {
           //<button onClick={this.delete}>Delete All</button> 
         }

@@ -1,0 +1,18 @@
+button::after {
+  content: "";
+  overflow: visible;
+  position: absolute;
+  height: 2px;
+  width: 100px;
+  background: white;
+  color: white;
+}
+
+.polygon::before {
+  content: "";
+  position: absolute;
+  height: 2px;
+  width: 100px;
+  background: white;
+  color: white;
+}
