@@ -7,7 +7,7 @@ const app = express();
 
 
 //DataBase connection
-var db = mongoose.createConnection('mongodb+srv://awesomak:000123321@cluster0-0n7tq.mongodb.net/test?retryWrites=true', { useNewUrlParser: true });
+var db = mongoose.createConnection('mongodb+srv://awesomak:000123321@cluster0-0n7tq.mongodb.net/test?retryWrites=true');
 
 
   // Set static folder
