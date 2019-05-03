@@ -7,8 +7,15 @@ const app = express();
 
 
 //DataBase connection
-var db = mongoose.createConnection('mongodb://localhost:27017/questions', { useNewUrlParser: true });
+var db = mongoose.createConnection('mongodb+srv://awesomak:000123321@cluster0-0n7tq.mongodb.net/test?retryWrites=true', { useNewUrlParser: true });
 
+
+  // Set static folder
+  app.use(express.static('client/build'));
+
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+  });
 
 app.use(bodyParser.json())
 
@@ -191,7 +198,7 @@ app.delete('/api/delete', (req,res) => {
 })
 */
 
-const port = 5000;
+const port = process.env.PORT || 5000;
 
 app.listen(port, function() {
   console.log('server is ready on port - ' + port);
