@@ -5,17 +5,25 @@ class Answer extends Component {
         ok: false
     }
 
-    componentWillReceiveProps() {
-        this.setState({
-            ok: this.props.answer === this.props.rig ? true : false
-        })
-    }
-
     check = (e) => {
         var target = e.target;
-        var val = this.props.answer;
-        var id = this.props.id;
+        this.props.disable();
         target.classList.add("select");
+        setTimeout(() => {
+        if (this.state.ok) {
+            target.classList.add("right");
+            setTimeout(() => this.props.next(true),1000)
+        } else {
+            target.classList.add("false");
+            setTimeout(() => this.props.next(false),500)
+        }
+        },2000)
+    }
+
+    componentWillMount() {
+        setTimeout(() => {
+            var val = this.props.answer;
+        var id = this.props.id;
         fetch('/api/right/'+id, {
             method: "POST",
             headers: {
@@ -28,25 +36,13 @@ class Answer extends Component {
         })
           .then(res => res.json())
           .then(check => {
-              setTimeout(() => {
-                if(check) {
-                    target.classList.add("right");
-                    setTimeout(() => this.props.next(true),1000)
-                } else {
-                    target.classList.add("false");
-                    setTimeout(() => this.props.next(false),1000)
-                }
-              },2000)
+              if (check) {
+                  this.setState({
+                      ok : true
+                  })
+              }
           });
-    }
-
-    componentDidMount() {
-        this.setState({
-            ok: false
-        })
-        this.setState({
-            ok: this.props.answer === this.props.rig ? true : false
-        })
+        }, 200);
     }
 
 
@@ -55,7 +51,7 @@ render() {
     return (
     <React.Fragment>
         <div className="polygon">
-            <button onClick={ this.check }>{ this.props.answer }</button>
+            <button onClick={ this.check } className="answer">{ this.props.answer }</button>
         </div>
     </React.Fragment>
     );

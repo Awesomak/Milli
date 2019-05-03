@@ -23,7 +23,7 @@ render() {
         <p>Введите имя</p>
         <input placeholder='имя' id="name" />
         <p>Ваш результат - { this.props.q }</p>
-        <button onClick={ this.result }>Отправить</button>
+        <button className="answer" onClick={ this.result }>Отправить</button>
     </React.Fragment>
     );
 }

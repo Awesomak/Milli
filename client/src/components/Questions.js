@@ -46,7 +46,7 @@ class Questions extends Component {
     return (
       <div>
         <h2>Questions</h2>
-        <button onClick={ this.props.toStart }>На главную</button>
+        <button className="answer" onClick={ this.props.toStart }>На главную</button>
         <table>
           <tbody>
             {this.state.questions ? this.state.questions.map(question => 

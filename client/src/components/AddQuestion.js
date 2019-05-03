@@ -50,7 +50,7 @@ class AddQuestion extends Component {
         <input id="answer4" name="answer4" /><br />
         <label htmlFor="right">right</label>
         <input id="right" name="right" /><br />
-        <button type="submit">go</button>
+        <button className="answer" type="submit">go</button>
       </form>
     );
   }

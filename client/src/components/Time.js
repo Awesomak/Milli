@@ -5,7 +5,7 @@ class Time extends Component {
 render() {
     return (
     <React.Fragment>
-        <div>{ this.props.time }</div>
+        <div id="time">{ this.props.time }</div>
     </React.Fragment>
     );
 }

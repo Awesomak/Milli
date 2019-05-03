@@ -24,7 +24,7 @@ class RecordPage extends Component {
             ): null}
             </tbody>
           </table>
-          <button onClick={ this.props.toStart }>На главную</button>
+          <button className="answer" onClick={ this.props.toStart }>На главную</button>
       </React.Fragment>
     );
   }
